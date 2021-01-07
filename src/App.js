@@ -4,11 +4,15 @@ import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import InputField from './components/input/InputField';
 import Axios from "axios";
+import Collection from "./components/collection/Collection";
 
 function App() {
 
   const [movieName, setMovieName] = useState("");
   const [arrMovie, setArrMovie] = useState([]);
+  const [flag, setFlag] = useState(false);
+
+
   const apiKey = "270a451d";
 
   const addMovie = (e) => {
@@ -22,12 +26,14 @@ function App() {
     movies = Axios.get(`http://www.omdbapi.com/?s=${movieName}&type=movie&apikey=${apiKey}`);
     movies.then((res) => {
       let arr = [...res.data.Search];
-      console.log(arr);
       setArrMovie([...arr]);
+      setFlag(true);
+      console.log(flag)
     })
       .catch((err) => console.log(err));
-
   }
+
+
 
   return (
     <div className="container-fluid" id="container-main">
@@ -36,6 +42,7 @@ function App() {
         <div className="col-6 text-center">
           <Header />
           <InputField submit={submit} addMovie={addMovie} movieName={movieName} />
+          {flag ? <Collection arrMovie={arrMovie} /> : null}
           <Footer />
         </div>
         <div className="col-3"></div>

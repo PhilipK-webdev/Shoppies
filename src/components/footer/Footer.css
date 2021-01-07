@@ -1,0 +1,13 @@
+.footer{
+
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 10vh !important;
+    background-color: #faf7ed;
+     width: 80%;
+}
+a {
+    color:#202529;
+    text-decoration: none;
+
+}

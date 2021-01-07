@@ -15,7 +15,6 @@ function App() {
         </div>
         <div className="col-3"></div>
       </div>
-
     </div>
   );
 }

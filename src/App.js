@@ -30,6 +30,9 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+  function addToMyCollection(addMovie) {
+    console.log(addMovie);
+  }
 
 
   return (
@@ -39,7 +42,7 @@ function App() {
         <div className="col-6 text-center">
           <Header />
           <InputField submit={submit} addMovie={addMovie} movieName={movieName} />
-          {flag ? <Collection arrMovie={arrMovie} /> : null}
+          {flag ? <Collection arrMovie={arrMovie} movieName={movieName} addToMyCollection={addToMyCollection} /> : null}
           <Footer />
         </div>
         <div className="col-3"></div>

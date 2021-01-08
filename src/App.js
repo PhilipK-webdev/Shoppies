@@ -11,8 +11,6 @@ function App() {
   const [movieName, setMovieName] = useState("");
   const [arrMovie, setArrMovie] = useState([]);
   const [flag, setFlag] = useState(false);
-
-
   const apiKey = "270a451d";
 
   const addMovie = (e) => {
@@ -28,7 +26,6 @@ function App() {
       let arr = [...res.data.Search];
       setArrMovie([...arr]);
       setFlag(true);
-      console.log(flag)
     })
       .catch((err) => console.log(err));
   }

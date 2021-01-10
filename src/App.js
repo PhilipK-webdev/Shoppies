@@ -5,12 +5,15 @@ import Header from './components/header/Header';
 import InputField from './components/input/InputField';
 import Axios from "axios";
 import Collection from "./components/collection/Collection";
+import CollectionDB from "./components/collection/CollectionDB";
 
 function App() {
 
   const [movieName, setMovieName] = useState("");
   const [arrMovie, setArrMovie] = useState([]);
+  const [movieDB, setMovieDB] = useState([]);
   const [flag, setFlag] = useState(false);
+  const [tempFlag, setTempFlage] = useState(false);
   const apiKey = "270a451d";
 
   const addMovie = (e) => {
@@ -30,22 +33,31 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+
   function addToMyCollection(addMovie) {
-    console.log(addMovie);
+    movieDB.push(arrMovie[addMovie]);
+    setMovieDB([...movieDB]);
+    setTempFlage(true);
+    window.localStorage.setItem("movie", JSON.stringify(movieDB));
   }
 
+  function deleteMyMovieDB(deleteMovie) {
+    movieDB.splice(deleteMovie, 1);
+    setMovieDB([...movieDB]);
+  }
 
   return (
-    <div className="container-fluid" id="container-main">
+    <div className="container-fluid text-center" id="container-main">
+      <Header />
+      <InputField submit={submit} addMovie={addMovie} movieName={movieName} />
       <div className="row">
-        <div className="col-3"></div>
-        <div className="col-6 text-center">
-          <Header />
-          <InputField submit={submit} addMovie={addMovie} movieName={movieName} />
+        <div className="col-6">
           {flag ? <Collection arrMovie={arrMovie} movieName={movieName} addToMyCollection={addToMyCollection} /> : null}
           <Footer />
         </div>
-        <div className="col-3"></div>
+        <div className="col-6">
+          {tempFlag ? <CollectionDB movieDB={movieDB} deleteMyMovieDB={deleteMyMovieDB} /> : null}
+        </div>
       </div>
     </div>
   );

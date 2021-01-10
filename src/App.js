@@ -14,7 +14,7 @@ function App() {
   const [movieDB, setMovieDB] = useState([]);
   const [flag, setFlag] = useState(false);
   const [tempFlag, setTempFlage] = useState(false);
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
   const apiKey = "270a451d";
   let banner = (
     <div className="alert alert-primary" role="alert">
@@ -22,25 +22,17 @@ function App() {
     </div>
   )
 
-  // let arrLocalStorage;
   useEffect(() => {
     let value = [];
-    let countLocal;
     value = JSON.parse(window.localStorage.getItem("movie"));
-    countLocal = JSON.parse(window.localStorage.getItem("count"));
     if (value) {
       setMovieDB([...value]);
-      setCount(countLocal + 1);
       setTempFlage(true);
+      setCount(value.length);
     }
-
-    // for (let i = 0; i < movieDB.length; i++) {
-    //   value = JSON.parse(window.localStorage.getItem("movie"));
-    //   setMovieDB([...value]);
-    //   console.log(movieDB);
-    //   console.log("hello")
-    // }
   }, []);
+
+
 
   const addMovie = (e) => {
     let tempName = e.target.value;
@@ -63,17 +55,15 @@ function App() {
 
 
   function addToMyCollection(addMovie) {
-    setCount(count + 1);
-    console.log(count);
-    if (movieDB.length <= 5) {
 
+    if (movieDB.length <= 5) {
       movieDB.push(arrMovie[addMovie]);
       setMovieDB([...movieDB]);
       setTempFlage(true);
+      setCount(count + 1);
       window.localStorage.setItem("movie", JSON.stringify(movieDB));
-      window.localStorage.setItem("count", JSON.stringify(count));
+      window.localStorage.setItem("count", JSON.stringify(movieDB.length));
     }
-
   }
 
   function deleteMyMovieDB(deleteMovie) {
@@ -81,9 +71,7 @@ function App() {
     setMovieDB([...movieDB]);
     setCount(count - 1);
     window.localStorage.setItem("movie", JSON.stringify(movieDB));
-    window.localStorage.setItem("count", JSON.stringify(count - 1));
-
-
+    window.localStorage.setItem("count", JSON.stringify(movieDB.length));
   }
 
 

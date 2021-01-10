@@ -16,9 +16,6 @@ function CollectionDB(props) {
             <div className="row">
                 <div className="col-4">
                     <div className="card" style={{ width: "30rem" }}>
-                        <div className="card-header">
-                            Top 5 :
-                  </div>
                         <ol className="list-group list-group-flush">
                             {props.movieDB.map((element, index) => (
                                 <li className="list-group-item" key={index} id={index}>{element.Title + " " + "(" + element.Year + ")"}

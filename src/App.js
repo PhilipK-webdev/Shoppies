@@ -14,13 +14,40 @@ function App() {
   const [movieDB, setMovieDB] = useState([]);
   const [flag, setFlag] = useState(false);
   const [tempFlag, setTempFlage] = useState(false);
+  const [count, setCount] = useState(1);
   const apiKey = "270a451d";
+  let banner = (
+    <div className="alert alert-primary" role="alert">
+      5 nominations!
+    </div>
+  )
+
+  // let arrLocalStorage;
+  useEffect(() => {
+    let value = [];
+    let countLocal;
+    value = JSON.parse(window.localStorage.getItem("movie"));
+    countLocal = JSON.parse(window.localStorage.getItem("count"));
+    if (value) {
+      setMovieDB([...value]);
+      setCount(countLocal + 1);
+      setTempFlage(true);
+    }
+
+    // for (let i = 0; i < movieDB.length; i++) {
+    //   value = JSON.parse(window.localStorage.getItem("movie"));
+    //   setMovieDB([...value]);
+    //   console.log(movieDB);
+    //   console.log("hello")
+    // }
+  }, []);
 
   const addMovie = (e) => {
     let tempName = e.target.value;
     setMovieName(tempName);
 
   }
+
   const submit = (e) => {
     e.preventDefault();
     let movies = [];
@@ -34,25 +61,40 @@ function App() {
   }
 
 
+
   function addToMyCollection(addMovie) {
-    movieDB.push(arrMovie[addMovie]);
-    setMovieDB([...movieDB]);
-    setTempFlage(true);
-    window.localStorage.setItem("movie", JSON.stringify(movieDB));
+    setCount(count + 1);
+    console.log(count);
+    if (movieDB.length <= 5) {
+
+      movieDB.push(arrMovie[addMovie]);
+      setMovieDB([...movieDB]);
+      setTempFlage(true);
+      window.localStorage.setItem("movie", JSON.stringify(movieDB));
+      window.localStorage.setItem("count", JSON.stringify(count));
+    }
+
   }
 
   function deleteMyMovieDB(deleteMovie) {
     movieDB.splice(deleteMovie, 1);
     setMovieDB([...movieDB]);
+    setCount(count - 1);
+    window.localStorage.setItem("movie", JSON.stringify(movieDB));
+    window.localStorage.setItem("count", JSON.stringify(count - 1));
+
+
   }
+
 
   return (
     <div className="container-fluid text-center" id="container-main">
       <Header />
       <InputField submit={submit} addMovie={addMovie} movieName={movieName} />
+      {count >= 5 ? banner : null}
       <div className="row">
         <div className="col-6">
-          {flag ? <Collection arrMovie={arrMovie} movieName={movieName} addToMyCollection={addToMyCollection} /> : null}
+          {flag ? <Collection arrMovie={arrMovie} movieName={movieName} addToMyCollection={addToMyCollection} count={count} /> : null}
           <Footer />
         </div>
         <div className="col-6">
